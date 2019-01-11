@@ -23,9 +23,11 @@ class MyRobot(wpilib.TimedRobot):
         print("ROBORINIT")
         self.leftMotor = ctre.WPI_TalonSRX(8)        # initialize the motor as a Talon on channel 0
         self.rightMotor = ctre.WPI_TalonSRX(4)
+        self.extraMotor = ctre.WPI_TalonSRX(2)
         self.stick = wpilib.XboxController(0)     # initialize the joystick on port 0
         self.right = wpilib.SpeedControllerGroup(self.rightMotor)
         self.left = wpilib.SpeedControllerGroup(self.leftMotor)
+        wpilib.CameraServer.launch()
 
         self.drive = DifferentialDrive(self.left, self.right)
 
@@ -34,6 +36,10 @@ class MyRobot(wpilib.TimedRobot):
         print(self.stick.getX(GenericHID.Hand.kLeft))
         self.drive.arcadeDrive(self.stick.getY(GenericHID.Hand.kLeft), self.stick.getX(GenericHID.Hand.kLeft), squareInputs=True)
         print(self.stick.getX(GenericHID.Hand.kLeft))
+        if self.stick.getAButton():
+            self.extraMotor.set(50)
+        else:
+            self.extraMotor.stopMotor()
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)
