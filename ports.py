@@ -1,10 +1,10 @@
 talonPorts = {
     # Motors involved in moving the robot around the field
-    "leftChassisMotor": 15,
-    "rightChassisMotor": 14,
+    "leftChassisMotor": 8,
+    "rightChassisMotor": 7,
     
     # Motors involved in manipulating objects on the field
-    "testArmMotor": 16
+    "testArmMotor": 6
 }
 
 controllerPorts = {

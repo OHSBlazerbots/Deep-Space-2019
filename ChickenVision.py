@@ -62,8 +62,8 @@ def threshold_video(frame):
     # Convert BGR to HSV
     hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
     # define range of red in HSV
-    lower_color = np.array([37,53,57])
-    upper_color = np.array([135, 255, 255])
+    lower_color = np.array([44,57,63])
+    upper_color = np.array([92,255,255])
     # hold the HSV image to get only red colors
     mask = cv2.inRange(hsv, lower_color, upper_color)
 
@@ -208,6 +208,8 @@ def findTargets(contours, image, centerX, centerY):
                 #Angle from center of camera to target (what you should pass into gyro)
                 yawToTarget = calculateYaw(centerOfTarget, centerX, H_FOCAL_LENGTH)
                 
+                if(len(biggestCnts) == 0):
+                    yawToTarget = 0
                 #Push to NetworkTable
                 table.putNumber("yawToTarget", yawToTarget)
                 
