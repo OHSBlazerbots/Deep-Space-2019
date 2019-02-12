@@ -5,6 +5,7 @@ import wpilib
 
 import ports
 import RobotMethods
+from NetworkData import SendData
 
 class MyRobot(wpilib.TimedRobot):
 
@@ -18,7 +19,11 @@ class MyRobot(wpilib.TimedRobot):
         self.driveMethods.driveTrainInit(self)
         self.armMethods.armMotorDriverInit(self)
 
+        self.sendData = SendData()
+        self.sendData.init()
+
     def teleopPeriodic(self):
+        self.sendData.sendPDPData()
         self.driveMethods.driveRobotWithJoystick(self.controller)
         self.armMethods.driveArmMotorWithJoystick(self.controller)
 
