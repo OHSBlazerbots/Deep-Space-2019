@@ -1,4 +1,5 @@
 import ports
+from NetworkData import SensorData
 
 import ctre
 import wpilib
@@ -41,10 +42,25 @@ class Driver():
 class ArmMotorDriver():
     def armMotorDriverInit(self, robot):
         self.motor = ctre.WPI_TalonSRX(ports.talonPorts.get("testArmMotor"))
+        self.sensorCollection = ctre.sensorcollection.SensorCollection(self.motor)
         self.motorRunning = False
+        self.NTSensor = SensorData()
+        self.NTSensor.init("Manipulator")
+        self.position = 0
 
     def driveArmMotorWithJoystick(self, joystick):
-        if(joystick.getAButton()):
+        self.NTSensor.sendSensorData("QuadPosition", self.sensorCollection.getQuadraturePosition())
+        self.NTSensor.sendSensorData("QuadVelocity", self.sensorCollection.getQuadratureVelocity())
+
+        self.position = self.sensorCollection.getQuadraturePosition()
+
+        if(joystick.getAButton()): # Open the arms
+            if(position <= -3000):
+                self.motor.stopMotor()
+            if(position <= -240):
+                self.motor.stopMotor()
+            if(position >= 0):
+                pass
             if(self.motorRunning):
                 self.motor.stopMotor()
                 self.motorRunning=False

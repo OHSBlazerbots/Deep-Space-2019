@@ -14,3 +14,10 @@ class SendData():
         self.dashboard.putNumber("PDPCurrent", self.pdp.getTotalCurrent())
         self.dashboard.putNumber("PDPTemperature", self.pdp.getTemperature())
         self.dashboard.putNumber("PDPVoltage", self.pdp.getVoltage())
+
+class SensorData():
+    def init(self, table):
+        self.dashboard = NetworkTables.getTable(table)
+
+    def sendSensorData(self, tag, data):
+        self.dashboard.putNumber(tag, data)
