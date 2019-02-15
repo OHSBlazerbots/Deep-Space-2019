@@ -55,23 +55,16 @@ class ArmMotorDriver():
         self.position = self.sensorCollection.getQuadraturePosition()
 
         if(joystick.getAButton()): # Open the arms
-            if(position <= -3000):
+            if(self.position <= -3000):
                 self.motor.stopMotor()
-            if(position <= -240):
+            elif(self.position <= -150):
                 self.motor.stopMotor()
-            if(position >= 0):
-                pass
-            if(self.motorRunning):
-                self.motor.stopMotor()
-                self.motorRunning=False
-            elif(not self.motorRunning):
+            else:
                 self.motor.set(0.2)
-                self.motorRunning=True
-
-        if(joystick.getBButton()):
-            if(self.motorRunning):
+        elif(joystick.getBButton()): # Close the arms
+            if(self.position >= 135):
                 self.motor.stopMotor()
-                self.motorRunning=False
-            elif(not self.motorRunning):
+            else:
                 self.motor.set(-0.2)
-                self.motorRunning=True
+        else:
+            self.motor.stopMotor()
