@@ -13,19 +13,28 @@ class MyRobot(wpilib.TimedRobot):
         '''Robot initialization function'''
         self.driveMethods = RobotMethods.Driver()
         self.armMethods = RobotMethods.ArmMotorDriver()
+        self.liftMethods = RobotMethods.LiftDriver()
         
-        self.controller = wpilib.XboxController(ports.controllerPorts.get("driverController"))
+        self.driverController = wpilib.XboxController(ports.controllerPorts.get("driverController"))
+        self.coDriverController = wpilib.XboxController(ports.controllerPorts.get("codriverController"))
 
         self.driveMethods.driveTrainInit(self)
         self.armMethods.armMotorDriverInit(self)
+        self.liftMethods.liftDriverInit(self)
 
-        self.sendData = SendData()
-        self.sendData.init()
+        wpilib.CameraServer.launch()
+
+        #self.sendData = SendData()
+        #self.sendData.init()
+
+    def autonomousPeriodic(self):
+        self.teleopPeriodic()
 
     def teleopPeriodic(self):
-        self.sendData.sendPDPData()
-        self.driveMethods.driveRobotWithJoystick(self.controller)
-        self.armMethods.driveArmMotorWithJoystick(self.controller)
+        #self.sendData.sendPDPData()
+        self.driveMethods.driveRobotWithJoystick(self.driverController)
+        self.armMethods.driveArmMotorWithJoystick(self.coDriverController)
+        self.liftMethods.driveLiftWithJoystick(self.coDriverController)
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)

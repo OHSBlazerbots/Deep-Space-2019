@@ -1,10 +1,11 @@
 from networktables import NetworkTables
 from wpilib import PowerDistributionPanel
+import ports
 
 class SendData():
     def init(self):
         self.dashboard = NetworkTables.getTable("SmartDashboard")
-        self.pdp = PowerDistributionPanel(10)
+        self.pdp = PowerDistributionPanel(ports.miscPorts.get("pdp"))
 
     def sendDriveData(self, speed, rotation):
         self.dashboard.putNumber("RobotSpeed", speed)

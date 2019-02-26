@@ -15,9 +15,9 @@ class Driver():
         self.drive.setRightSideInverted(True)
 
     def driveRobotWithJoystick(self, joystick):
-        speed = joystick.getY(GenericHID.Hand.kLeft)
+        speed = joystick.getY(GenericHID.Hand.kLeft)*(1-(0.75*joystick.getTriggerAxis(GenericHID.Hand.kRight)))
 
-        rotation = self.alignWithVisionTargets(joystick)
+        rotation = self.alignWithVisionTargets(joystick)*(1-(0.75*joystick.getTriggerAxis(GenericHID.Hand.kLeft)))
 
         self.drive.arcadeDrive(-speed, rotation, squareInputs=True)
     
@@ -66,5 +66,16 @@ class ArmMotorDriver():
                 self.motor.stopMotor()
             else:
                 self.motor.set(-0.2)
+        elif(joystick.getXButton()):
+            self.motor.set(0.4)
+        elif(joystick.getYButton()):
+            self.motor.set(-0.4)
         else:
             self.motor.stopMotor()
+
+class LiftDriver():
+    def liftDriverInit(self, robot):
+        self.liftMotor = ctre.WPI_TalonSRX(ports.talonPorts.get("liftMotor"))
+    def driveLiftWithJoystick(self, joystick):
+        liftMotorSpeed = joystick.getX(GenericHID.Hand.kRight)
+        self.liftMotor.set(liftMotorSpeed)
