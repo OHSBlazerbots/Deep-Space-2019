@@ -44,8 +44,7 @@ class ArmMotorDriver():
         self.motor = ctre.WPI_TalonSRX(ports.talonPorts.get("testArmMotor"))
         self.sensorCollection = ctre.sensorcollection.SensorCollection(self.motor)
         self.motorRunning = False
-        self.NTSensor = SensorData()
-        self.NTSensor.init("Manipulator")
+        self.NTSensor = SensorData("Manipulator")
         self.position = 0
 
     def driveArmMotorWithJoystick(self, joystick):
@@ -75,7 +74,45 @@ class ArmMotorDriver():
 
 class LiftDriver():
     def liftDriverInit(self, robot):
+        # Network Tables for Data Comms
+        self.sData = SensorData("liftTable")
+
+        # Set the motor to use
         self.liftMotor = ctre.WPI_TalonSRX(ports.talonPorts.get("liftMotor"))
+        
+        # Configure the Lift Motor
+        self.liftMotorSpeed = 0.2
+
+        # Create the Hall Effect Sensor objects
+        self.bottomHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectBottom"))
+        self.middleHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectMiddle"))
+        self.topHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectTop"))
+
+        # Configure Hall Effect code
+        self.sensorThreshold = 1.5
+
+        # Movement Code
+        self.movingUp = False
+        self.movingDown = False
+
     def driveLiftWithJoystick(self, joystick):
-        liftMotorSpeed = joystick.getX(GenericHID.Hand.kRight)
-        self.liftMotor.set(liftMotorSpeed)
+        self.bHEVal = self.hallEffectToBool(self.bottomHallEffect)
+        self.mHEVal = self.hallEffectToBool(self.middleHallEffect)
+        self.tHEVal = self.hallEffectToBool(self.topHallEffect)
+
+        # Flow: Get Up button, check where we are at, if not at top, move up one level.
+        # Flow: Get Down Button, check where we are at, if not at bottom, move down one level.
+        if(getLiftUp and self.canMoveUp)
+
+
+        # Publish Hall Effect Data to Network Tables
+        self.sData.sendSensorData("hallEffectBottom", bottomSensorValue)
+        self.sData.sendSensorData("hallEffectMiddle", middleSensorValue)
+        self.sData.sendSensorData("hallEffectTop", topSensorValue)
+
+    def hallEffectToBool(self, sensor):
+        value = sensor.getValue()
+        if(value > self.sensorThreshold):
+            return False
+        else:
+            return True

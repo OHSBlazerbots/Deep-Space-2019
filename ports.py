@@ -12,7 +12,10 @@ talonPorts = {
 
 miscPorts = {
     # Port for the Power Distribution Panel
-    "pdp": 00
+    "pdp": 00,
+    "LiftHallEffectBottom": 2,
+    "LiftHallEffectMiddle": 1,
+    "LiftHallEffectTop": 0
 }
 
 controllerPorts = {

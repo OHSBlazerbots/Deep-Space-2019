@@ -17,7 +17,7 @@ class SendData():
         self.dashboard.putNumber("PDPVoltage", self.pdp.getVoltage())
 
 class SensorData():
-    def init(self, table):
+    def __init__(self, table):
         self.dashboard = NetworkTables.getTable(table)
 
     def sendSensorData(self, tag, data):
