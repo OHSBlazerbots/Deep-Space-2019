@@ -1,0 +1,184 @@
+{
+  "dividerPosition": 0.03524229074889868,
+  "tabPane": [
+    {
+      "title": "SmartDashboard",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "SmartDashboard/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_title": ""
+            }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Accelerometer",
+              "_title": "",
+              "showText": true,
+              "numDecimals": 2,
+              "showTickMarks": false,
+              "min": -1.0,
+              "max": 1.0
+            }
+          },
+          "3,1": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "PDP",
+              "_title": "",
+              "showIndicatorText": true
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Voltage View",
+              "_title": "",
+              "min": 0.0,
+              "max": 5.0,
+              "center": 0.0,
+              "orientation": "HORIZONTAL",
+              "numTickMarks": 5.0
+            }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_title": "",
+              "colorWhenTrue": "#7CFC00FF",
+              "colorWhenFalse": "#8B0000FF"
+            }
+          },
+          "5,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_title": "",
+              "colorWhenTrue": "#7CFC00FF",
+              "colorWhenFalse": "#8B0000FF"
+            }
+          },
+          "5,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_title": "",
+              "colorWhenTrue": "#7CFC00FF",
+              "colorWhenFalse": "#8B0000FF"
+            }
+          },
+          "6,0": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Differential Drivebase",
+              "_title": "",
+              "numberOfWheels": 4,
+              "wheelDiameter": 80.0,
+              "showVectors": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "LiveWindow",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "LiveWindow/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {}
+      }
+    },
+    {
+      "title": "Set Up",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_title": ""
+            }
+          },
+          "0,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_title": ""
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Robot Preferences",
+              "_title": "",
+              "searchBoxVisible": true
+            }
+          },
+          "2,1": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Differential Drivebase",
+              "_title": "",
+              "numberOfWheels": 4,
+              "wheelDiameter": 80.0,
+              "showVectors": true
+            }
+          }
+        }
+      }
+    }
+  ]
+}
