@@ -76,12 +76,11 @@ class BaseControlScheme():
         pass
 
 
-class ProgrammingControlScheme(BaseControlScheme):
+class ProgrammingControlScheme():
     
     def __init__(self, driver, codriver):
         self.driverJoystick = driver
         self.codriverJoystick = codriver
-        super.__init__(driver, codriver)
 
     def getDriver(self):
         return self.driverJoystick
@@ -111,7 +110,7 @@ class ProgrammingControlScheme(BaseControlScheme):
     def buttonLiftDown(self):
         return self.codriverJoystick.getAButton()
 
-    def buttonLiftStop(self):
+    def buttonStopLift(self):
         return self.codriverJoystick.getBButton()
 
     def buttonVisionAlign(self):
@@ -122,17 +121,17 @@ class ProgrammingControlScheme(BaseControlScheme):
     #------------------------  
 
     def triggerSlowSpeed(self):
-        return self.driverJoystick.getTrigger(GenericHID.Hand.kLeft)
+        return self.driverJoystick.getTriggerAxis(GenericHID.Hand.kLeft)
     
     def triggerSlowRotation(self):
-        return self.driverJoystick.getTrigger(GenericHID.Hand.kRight)
+        return self.driverJoystick.getTriggerAxis(GenericHID.Hand.kRight)
 
     #------------------------
     #     JOYSTICKS
     #------------------------
         
     def joystickDriveForward(self):
-        return self.driverJoystick.getYAxis(GenericHID.Hand.kLeft)
+        return self.driverJoystick.getY(GenericHID.Hand.kLeft)
 
     def joystickTurn(self):
-        return self.driverJoystick.getXAxis(GenericHID.Hand.kLeft)
+        return self.driverJoystick.getX(GenericHID.Hand.kLeft)

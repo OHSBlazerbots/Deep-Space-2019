@@ -89,7 +89,7 @@ class LiftDriver():
         self.liftMotor = ctre.WPI_TalonSRX(ports.talonPorts.get("liftMotor"))
         
         # Configure the Lift Motor
-        self.liftMotorSpeed = 0.2
+        self.liftMotorSpeed = 0.65
 
         # Create the Hall Effect Sensor objects
         self.bottomHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectBottom"))
@@ -97,7 +97,7 @@ class LiftDriver():
         self.topHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectTop"))
 
         # Configure Hall Effect code
-        self.sensorThreshold = 1.5
+        self.sensorThreshold = 2.5
 
         # Movement Code
         self.movingUp = False
@@ -105,7 +105,7 @@ class LiftDriver():
         self.position = 0
         self.nextPosition = 0
 
-    def driveLiftWithJoystick(self, joystick):
+    def driveLiftWithJoystick(self):
         self.bHEVal = self.hallEffectToBool(self.bottomHallEffect)
         self.mHEVal = self.hallEffectToBool(self.middleHallEffect)
         self.tHEVal = self.hallEffectToBool(self.topHallEffect)
