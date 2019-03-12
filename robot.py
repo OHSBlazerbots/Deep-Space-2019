@@ -40,5 +40,6 @@ class MyRobot(wpilib.TimedRobot):
         self.armMethods.driveArmMotorWithJoystick()
         self.liftMethods.driveLiftWithJoystick()
 
+
 if __name__ == "__main__":
     wpilib.run(MyRobot)

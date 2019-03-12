@@ -54,6 +54,9 @@ class BaseControlScheme():
 
     def buttonVisionAlign(self):
         pass
+
+    def buttonLiftStay(self):
+        pass
     
     #------------------------
     #     TRIGGERS
@@ -115,6 +118,9 @@ class ProgrammingControlScheme():
 
     def buttonVisionAlign(self):
         return self.driverJoystick.getBumper(GenericHID.Hand.kRight)
+
+    def buttonLiftStay(self):
+        return self.codriverJoystick.getXButton()
     
     #------------------------
     #     TRIGGERS

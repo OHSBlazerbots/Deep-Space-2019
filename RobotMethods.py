@@ -89,7 +89,10 @@ class LiftDriver():
         self.liftMotor = ctre.WPI_TalonSRX(ports.talonPorts.get("liftMotor"))
         
         # Configure the Lift Motor
-        self.liftMotorSpeed = 0.65
+        self.liftMotorSpeed = 0.75
+
+        # Configure Down Motor Speed
+        self.liftMotorSpeedDown = -.5
 
         # Create the Hall Effect Sensor objects
         self.bottomHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectBottom"))
@@ -102,6 +105,7 @@ class LiftDriver():
         # Movement Code
         self.movingUp = False
         self.movingDown = False
+        self.notMoving = False
         self.position = 0
         self.nextPosition = 0
 
@@ -117,6 +121,7 @@ class LiftDriver():
             self.liftMotor.stopMotor()
             self.movingDown = False
             self.movingUp = False
+            self.notMoving = False
             
         self.position = self.getPosition()
         if(self.movingUp):
@@ -133,25 +138,36 @@ class LiftDriver():
                 self.nextPosition = self.position + 1
                 self.movingUp = True
                 self.movingDown = False
+                self.notMoving = False
             else:
                 self.nextPosition = self.position
                 self.movingUp = False
                 self.movingDown = False
+                self.notMoving = False
         
         if(self.controlScheme.buttonLiftDown()):
             if(self.canMoveDown()):
                 self.nextPosition = self.position - 1
                 self.movingUp = False
                 self.movingDown = True
+                self.notMoving = False
             else:
                 self.nextPosition = self.position
                 self.movingUp = False
                 self.movingDown = False
+                self.notMoving = False
+
+        if(self.controlScheme.buttonLiftStay()):
+            self.movingUp = False
+            self.movingDown = False
+            self.notMoving = True
 
         if(self.movingUp):
             self.liftMotor.set(self.liftMotorSpeed)
         elif(self.movingDown):
-            self.liftMotor.set(-self.liftMotorSpeed)
+            self.liftMotor.set(self.liftMotorSpeedDown)
+        elif(self.notMoving):
+            self.liftMotor.set(.125)
         else:
             self.liftMotor.stopMotor()
 
