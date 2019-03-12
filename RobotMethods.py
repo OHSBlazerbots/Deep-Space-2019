@@ -69,11 +69,9 @@ class ArmMotorDriver():
             if(self.position >= 135):
                 self.motor.stopMotor()
             else:
-                self.motor.set(-0.2)
+                self.motor.set(-0.4)
         elif(self.controlScheme.buttonFastOpenManipulator()): # Quickly (and unsafely) open the arms
             self.motor.set(0.4)
-        elif(self.controlScheme.buttonFastOpenManipulator()): # Quickly (and unsafely) close the arms
-            self.motor.set(-0.4)
         else:
             self.motor.stopMotor()
 
