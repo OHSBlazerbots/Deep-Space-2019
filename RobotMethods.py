@@ -90,117 +90,69 @@ class LiftDriver():
         self.liftMotorSpeed = 0.75
 
         # Configure Down Motor Speed
-        self.liftMotorSpeedDown = -.5
+        self.liftMotorSpeedDown = -.25
 
         # Create the Hall Effect Sensor objects
         self.bottomHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectBottom"))
         self.middleHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectMiddle"))
         self.topHallEffect = wpilib.AnalogInput(ports.miscPorts.get("LiftHallEffectTop"))
 
+        # Test AnalogTrigger
+        #self.testTrigger = wpilib.AnalogTrigger(ports.miscPorts.get("LiftHallEffectBottom"))
+        #self.testTrigger.setLimitsVoltage(0.0, 1.0)
+
         # Configure Hall Effect code
         self.sensorThreshold = 2.5
 
-        # Movement Code
-        self.movingUp = False
-        self.movingDown = False
+        self.aboveMid = False
         self.notMoving = False
-        self.position = 0
-        self.nextPosition = 0
+        self.movingDown = False
+        self.movingUp = False
+        self.hSensor = SensorData("LIFT")
+
+    def boolFromVal(self, value):
+        if(value < 500):
+            return True
+        else:
+            return False
 
     def driveLiftWithJoystick(self):
-        self.bHEVal = self.hallEffectToBool(self.bottomHallEffect)
-        self.mHEVal = self.hallEffectToBool(self.middleHallEffect)
-        self.tHEVal = self.hallEffectToBool(self.topHallEffect)
+        self.hSensor.sendSensorData("Value", self.bottomHallEffect.getValue())
+        self.hSensor.sendSensorData("Voltage", self.bottomHallEffect.getVoltage())
+        #self.hSensor.sendSensorData("AnalogTriggered", self.testTrigger.getTriggerState())
+        #self.hSensor.sendSensorData("AnalogInWindow", self.testTrigger.getInWindow())
+        # Trigger Bounds: 0v - 0.1v
 
-        # Flow: Get Up button, check where we are at, if not at top, move up one level.
-        # Flow: Get Down Button, check where we are at, if not at bottom, move down one level.
-        # Flow: Get Stop Button, Immediately Stop Motor
-        if(self.controlScheme.buttonStopLift()):
-            self.liftMotor.stopMotor()
-            self.movingDown = False
-            self.movingUp = False
-            self.notMoving = False
-            
-        self.position = self.getPosition()
-        if(self.movingUp):
-            if(self.position == self.nextPosition):
-                self.movingUp = False
-                self.liftMotor.stopMotor()
-        elif(self.movingDown):
-            if(self.position == self.nextPosition):
-                self.movingDown = False
-                self.liftMotor.stopMotor()
+        self.hSensor.sendSensorData("bottom", self.boolFromVal(self.bottomHallEffect.getValue()))
+        self.hSensor.sendSensorData("middle", self.boolFromVal(self.middleHallEffect.getValue()))
+        self.hSensor.sendSensorData("top", self.boolFromVal(self.topHallEffect.getValue()))
 
-        if(self.controlScheme.buttonLiftUp()):
-            if(self.canMoveUp()):
-                self.nextPosition = self.position + 1
-                self.movingUp = True
-                self.movingDown = False
-                self.notMoving = False
-            else:
-                self.nextPosition = self.position
-                self.movingUp = False
-                self.movingDown = False
-                self.notMoving = False
-        
-        if(self.controlScheme.buttonLiftDown()):
-            if(self.canMoveDown()):
-                self.nextPosition = self.position - 1
-                self.movingUp = False
-                self.movingDown = True
-                self.notMoving = False
-            else:
-                self.nextPosition = self.position
-                self.movingUp = False
-                self.movingDown = False
-                self.notMoving = False
+        self.notMoving = self.boolFromVal(self.bottomHallEffect.getValue()) or self.boolFromVal(self.middleHallEffect.getValue()) or self.boolFromVal(self.topHallEffect.getValue())
 
         if(self.controlScheme.buttonLiftStay()):
-            self.movingUp = False
-            self.movingDown = False
             self.notMoving = True
+            self.movingDown = False
+            self.movingUp = False
+    
+        if(self.controlScheme.buttonLiftTop()):
+                self.movingUp = not self.boolFromVal(self.topHallEffect.getValue())
+                self.notMoving = False
+                self.movingDown = False
 
-        if(self.movingUp):
+        if(self.controlScheme.buttonLiftBottom()):
+                self.movingUp = False
+                self.movingDown = not self.boolFromVal(self.bottomHallEffect.getValue())
+                self.notMoving = False
+
+
+        if(self.notMoving):
+            self.liftMotor.set(.125)
+        elif(self.movingUp):
             self.liftMotor.set(self.liftMotorSpeed)
         elif(self.movingDown):
             self.liftMotor.set(self.liftMotorSpeedDown)
-        elif(self.notMoving):
-            self.liftMotor.set(.125)
         else:
             self.liftMotor.stopMotor()
 
-
-        # Publish Hall Effect Data to Network Tables
-        self.sData.sendSensorData("hallEffectBottom", self.bHEVal)
-        self.sData.sendSensorData("hallEffectMiddle", self.mHEVal)
-        self.sData.sendSensorData("hallEffectTop", self.tHEVal)
-
-    def hallEffectToBool(self, sensor):
-        value = sensor.getValue()
-        if(value > self.sensorThreshold):
-            return False
-        else:
-            return True
-    
-    def getPosition(self):
-        if(self.bHEVal):
-            return 0
-        elif(self.mHEVal):
-            return 1
-        elif(self.tHEVal):
-            return 2
-        else:
-            return 1 # We return 1 here because if we pressed the stop button, we should be between levels, and a value of one lets us move up AND down
-
-    def canMoveUp(self):
-        if(self.getPosition() == 2):
-            return False
-        else:
-            return True
-    
-    def canMoveDown(self):
-        if(self.getPosition() == 0):
-            return False
-        else:
-            return True
+        
         

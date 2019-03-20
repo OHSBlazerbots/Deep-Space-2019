@@ -43,13 +43,13 @@ class BaseControlScheme():
     def buttonFastCloseManipulator(self):
         pass
 
-    def buttonLiftUp(self):
+    def buttonLiftTop(self):
         pass
     
-    def buttonLiftDown(self):
+    def buttonLiftMiddle(self):
         pass
 
-    def buttonLiftStop(self):
+    def buttonLiftBottom(self):
         pass
 
     def buttonVisionAlign(self):
@@ -107,14 +107,14 @@ class ProgrammingControlScheme():
     def buttonFastCloseManipulator(self):
         return self.codriverJoystick.getBackButton()
 
-    def buttonLiftUp(self):
+    def buttonLiftTop(self):
         return self.codriverJoystick.getYButton()
     
-    def buttonLiftDown(self):
-        return self.codriverJoystick.getAButton()
-
-    def buttonStopLift(self):
+    def buttonLiftMiddle(self):
         return self.codriverJoystick.getBButton()
+
+    def buttonLiftBottom(self):
+        return self.codriverJoystick.getAButton()
 
     def buttonVisionAlign(self):
         return self.driverJoystick.getBumper(GenericHID.Hand.kRight)
