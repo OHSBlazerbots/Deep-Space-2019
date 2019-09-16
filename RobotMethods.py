@@ -18,10 +18,10 @@ class Driver():
         self.drive.setRightSideInverted(True)
 
     def driveRobotWithJoystick(self):
-        speed = self.controlScheme.joystickDriveForward() * (1-(0.75*self.controlScheme.triggerSlowSpeed()))
-        #speed = joystick.getY(GenericHID.Hand.kLeft)*(1-(0.75*joystick.getTriggerAxis(GenericHID.Hand.kRight)))
+        speed = self.controlScheme.joystickDriveForward() * (1-(0.95*self.controlScheme.triggerSlowSpeed()))
+       #speed = joystick.getY(GenericHID.Hand.kLeft)*(1-(0.75*joystick.getTriggerAxis(GenericHID.Hand.kRight)))
 
-        rotation = self.alignWithVisionTargets(self.controlScheme.joystickTurn(), self.controlScheme.buttonVisionAlign())*(1-(0.75*self.controlScheme.triggerSlowRotation()))
+        rotation = self.alignWithVisionTargets(self.controlScheme.joystickTurn(), self.controlScheme.buttonVisionAlign())*(1-(0.95*self.controlScheme.triggerSlowRotation()))
         #rotation = self.alignWithVisionTargets(joystick)*(1-(0.75*joystick.getTriggerAxis(GenericHID.Hand.kLeft)))
 
         self.drive.arcadeDrive(-speed, rotation, squareInputs=True)

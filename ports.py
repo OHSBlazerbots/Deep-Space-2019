@@ -1,13 +1,13 @@
 talonPorts = {
     # Motors involved in moving the robot around the field
-    "leftChassisMotor": 11,
+    "leftChassisMotor": 22,
     "rightChassisMotor": 7,
     
     # Motors involved in manipulating objects on the field
-    "testArmMotor": 18,
+    "testArmMotor": 21,
 
     # Motors involved in moving the robot mechanisms
-    "liftMotor": 22
+    "liftMotor": 4
 }
 
 miscPorts = {
